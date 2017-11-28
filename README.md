@@ -3,7 +3,7 @@
 ## What is it?
 Guest Cohort is an enrolment plugin for Moodle that mixes the features 
 from guest enrolment with those of cohort sync. More exactly, it allows 
-you to provide quest access to a users that belong to a particular 
+you to provide quest access to users that belong to a particular 
 cohort. These users will be able to view these the resources of the 
 course, but will not be able to take part in its activities (they can 
 not complete assignments, they can not take quizes, they will not show 
