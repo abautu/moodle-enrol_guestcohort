@@ -1,4 +1,19 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * Guest Cohort enrolment plugin.
  *
@@ -27,8 +42,9 @@ class enrol_guestcohort_plugin extends enrol_plugin {
      * @param null $status
      * @param null $recovergrades
      */
-    public function enrol_user(stdClass $instance, $userid, $roleid = null, $timestart = 0, $timeend = 0, $status = null, $recovergrades = null) {
-        // nothing to do, we never enrol here!
+    public function enrol_user(stdClass $instance, $userid, $roleid = null, $timestart = 0,
+        $timeend = 0, $status = null, $recovergrades = null) {
+        // Nothing to do, we never enrol here!
         return;
     }
 
@@ -39,7 +55,7 @@ class enrol_guestcohort_plugin extends enrol_plugin {
      * @param int $userid
      */
     public function unenrol_user(stdClass $instance, $userid) {
-        // nothing to do, we never enrol here!
+        // Nothing to do, we never enrol here!
         return;
     }
 
@@ -54,11 +70,11 @@ class enrol_guestcohort_plugin extends enrol_plugin {
         global $USER, $CFG;
         require($CFG->dirroot.'/cohort/lib.php');
 
-        if(!cohort_is_member($instance->customint1, $USER->id)) {
+        if (!cohort_is_member($instance->customint1, $USER->id)) {
             return false;
         }
 
-        // Temporarily assign them some guest role for this context
+        // Temporarily assign some guest role for this context.
         $context = context_course::instance($instance->courseid);
         load_temp_course_role($context, $CFG->guestroleid);
         return ENROL_MAX_TIMESTAMP;
@@ -90,15 +106,15 @@ class enrol_guestcohort_plugin extends enrol_plugin {
 
         } else if (empty($instance->name)) {
             $enrol = $this->get_name();
-            $cohort = $DB->get_record('cohort', array('id'=>$instance->customint1));
+            $cohort = $DB->get_record('cohort', array('id' => $instance->customint1));
             if (!$cohort) {
                 return get_string('pluginname', 'enrol_'.$enrol);
             }
-            $cohortname = format_string($cohort->name, true, array('context'=>context::instance_by_id($cohort->contextid)));
+            $cohortname = format_string($cohort->name, true, array('context' => context::instance_by_id($cohort->contextid)));
             return get_string('pluginname', 'enrol_'.$enrol) . ' (' . $cohortname . ')';
 
         } else {
-            return format_string($instance->name, true, array('context'=>context_course::instance($instance->courseid)));
+            return format_string($instance->name, true, array('context' => context_course::instance($instance->courseid)));
         }
     }
 
@@ -113,7 +129,8 @@ class enrol_guestcohort_plugin extends enrol_plugin {
         global $CFG;
         require_once($CFG->dirroot . '/cohort/lib.php');
         $coursecontext = context_course::instance($courseid);
-        if (!has_capability('moodle/course:enrolconfig', $coursecontext) or !has_capability('enrol/guestcohort:config', $coursecontext)) {
+        if (!has_capability('moodle/course:enrolconfig', $coursecontext) or
+            !has_capability('enrol/guestcohort:config', $coursecontext)) {
             return false;
         }
 
@@ -149,8 +166,9 @@ class enrol_guestcohort_plugin extends enrol_plugin {
             return;
         }
 
-        if ($DB->record_exists('cohort', array('id'=>$data->customint1))) {
-            $instance = $DB->get_record('enrol', array('customint1'=>$data->customint1, 'courseid'=>$course->id, 'enrol'=>$this->get_name()));
+        if ($DB->record_exists('cohort', array('id' => $data->customint1))) {
+            $filters = array('customint1' => $data->customint1, 'courseid' => $course->id, 'enrol' => $this->get_name());
+            $instance = $DB->get_record('enrol', $filters);
             if ($instance) {
                 $instanceid = $instance->id;
             } else {
