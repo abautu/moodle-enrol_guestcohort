@@ -27,6 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Guest Cohort enrolment plugin implementation.
  * @author Andrei Bautu
+ * @copyright  2017 Andrei Bautu
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class enrol_guestcohort_plugin extends enrol_plugin {
