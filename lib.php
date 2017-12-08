@@ -69,7 +69,7 @@ class enrol_guestcohort_plugin extends enrol_plugin {
      */
     public function try_guestaccess(stdClass $instance) {
         global $USER, $CFG;
-        require($CFG->dirroot.'/cohort/lib.php');
+        require_once($CFG->dirroot.'/cohort/lib.php');
 
         if (!cohort_is_member($instance->customint1, $USER->id)) {
             return false;
