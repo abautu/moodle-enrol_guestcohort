@@ -13,18 +13,34 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * Strings for component 'enrol_guestcohort', language 'en'.
+ * Privacy provider.
  *
  * @package    enrol_guestcohort
- * @copyright  2017 Andrei Bautu
+ * @copyright  2021 Mikhail Golenkov <mikhailgolenkov@catalyst-au.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['guestcohort:config'] = 'Configure cohort instances';
-$string['instanceexists'] = 'A Guest Cohort instance already exists.';
-$string['pluginname'] = 'Guest Cohort';
-$string['pluginname_desc'] = 'Guest Cohort enrolment plugin gives guest access to cohort members.';
-$string['privacy:metadata'] = 'The Guest Cohort plugin does not store any personal data.';
-$string['status'] = 'Active';
+namespace enrol_guestcohort\privacy;
+
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Privacy provider.
+ *
+ * @package    enrol_guestcohort
+ * @copyright  2021 Mikhail Golenkov <mikhailgolenkov@catalyst-au.net>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}
